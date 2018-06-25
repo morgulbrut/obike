@@ -5,7 +5,8 @@ import requests
 import pandas as pd
 import time
 import random
-import progressbar
+from pprint import pprint
+#import progressbar
 from pygeocoder import Geocoder
 import numpy as np
 from geopandas import GeoDataFrame
@@ -13,7 +14,9 @@ from shapely.geometry import Point
 
 date = time.strftime("%Y-%m-%d %H:%M:%S")
 
-response = requests.get('https://mobile.o.bike/api/v1/bike/list?longitude=8.541654869914055&latitude=47.37490008461292')
+response = requests.get('https://mobile.o.bike/api/v2/bike/list', headers={'content-type': 'application/json','platform': 'iOS','version': '3.2.4'}, 
+	data='1152a752ff6623d245263cc1b500d38306d974dbf57110d8ace721bbaa34511e540976066d0d2d419172a34d7e1283b277d6a17091fd79d38e919ece60608c841378fef75ddf9f434067c768e88983d516a79ef7645c5d0150a3252da11ae30e20a74c8e7243c0fa1f6504536542c43c' )
+pprint(response);
 Lil_data = response.json()
 df = pd.DataFrame(Lil_data['data']['list'])
 df = df.head(0)
