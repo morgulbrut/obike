@@ -1,5 +1,10 @@
 # Understanding oBike and it's business case
 
+## Update to API V2
+WIP
+
+
+
 ## Working with the (strangely open) oBike API
 
 In Juli 2017, the bike rental service oBike from Singapore started in Zurich. It
