@@ -1,7 +1,7 @@
 
 # coding: utf-8
-
 import requests
+import subprocess
 import pandas as pd
 import time
 import random
@@ -14,10 +14,19 @@ from shapely.geometry import Point
 
 date = time.strftime("%Y-%m-%d %H:%M:%S")
 
-response = requests.get('https://mobile.o.bike/api/v2/bike/list', headers={'content-type': 'application/json','platform': 'iOS','version': '3.2.4'}, 
+response = requests.get('https://mobile.o.bike/api/v2/bike/list', headers={'content-type': 'application/json','version': '3.2.4'}, 
 	data='1152a752ff6623d245263cc1b500d38306d974dbf57110d8ace721bbaa34511e540976066d0d2d419172a34d7e1283b277d6a17091fd79d38e919ece60608c841378fef75ddf9f434067c768e88983d516a79ef7645c5d0150a3252da11ae30e20a74c8e7243c0fa1f6504536542c43c' )
-pprint(response);
+
+response = subprocess.check_output(["curl --request POST", 
+	"--url https://mobile.o.bike/api/v2/bike/list"
+	, "--header 'content-type: application/json'"
+	,"--header 'platform: iOS'"
+	,"--header 'version: 3.2.4'"
+	," --data '{ 'value': '1152a752ff6623d245263cc1b500d38306d974dbf57110d8ace721bbaa34511e540976066d0d2d419172a34d7e1283b277d6a17091fd79d38e919ece60608c841378fef75ddf9f434067c768e88983d516a79ef7645c5d0150a3252da11ae30e20a74c8e7243c0fa1f6504536542c43c'}'"])
+
 Lil_data = response.json()
+pprint(Lil_data)
+'''
 df = pd.DataFrame(Lil_data['data']['list'])
 df = df.head(0)
 
@@ -53,3 +62,4 @@ geo_df = GeoDataFrame(df, crs=crs, geometry=geometry)
 geo_df.columns = [['index', 'countyId', 'helmet', 'id', 'imei', date]]
 
 geo_df.to_csv(date + '2000obikesZH.csv')
+'''
